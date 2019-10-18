@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "SpriteBacth.h"
-
+//movi aqui
 using namespace std;
 
 const int TILE_WIDTH = 64;
@@ -23,7 +23,20 @@ public:
 	}
 	vector<glm::vec2> getZombiesPosition() const {
 		return zombiePosition;
+	}////
+	vector<string> getLevelData()const {
+		return levelData;
 	}
+	int getWidth() const {
+		return TILE_WIDTH;
+	}
+	int getHeight() const {
+		return TILE_WIDTH;
+	}
+
+	int getNumHumans()const {
+		return numHumans;
+	}///
 	void draw();
 	SpriteBacth spritebatch;
 	~Level();

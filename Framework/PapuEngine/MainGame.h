@@ -11,6 +11,10 @@
 #include "Level.h"
 #include "Player.h"
 #include "Human.h"
+#include "SpriteGlobal.h"
+#include "Zombie.h"
+
+//movi aqui
 
 enum class GameState
 {
@@ -27,16 +31,20 @@ private:
 	Window _window;
 	void init();
 	void procesInput();
+	void handleInput();
 	GLS_Program _program;
 	vector<Sprite*> _sprites;
 	Camera2D _camera;
 	SpriteBacth _spriteBacth;
 	InputManager _inputManager;
 	vector<Level*> levels;
+	vector<Zombie*> zombies;
 	int currentLevel;
 	void initLevel();
+	//void updateElements();
 	Player* player;
 	vector<Human*> humano;
+	vector<SpriteGlobal*> spritesGlobal;//
 	
 public:
 	MainGame();

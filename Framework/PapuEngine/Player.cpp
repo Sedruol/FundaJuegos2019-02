@@ -1,6 +1,6 @@
 #include "Player.h"
 #include <SDL\SDL.h>
-
+//movi aqui
 
 Player::Player()
 {
@@ -30,10 +30,10 @@ void Player::update()
 	if (inputManager->isKeyPressed(SDLK_s)) {
 		position.y -= speed;
 	}
-	if (inputManager->isKeyPressed(SDLK_a)) {
+	if (inputManager->isKeyPressed(SDLK_z)) {
 		position.x -= speed;
 	}
-	if (inputManager->isKeyPressed(SDLK_d)) {
+	if (inputManager->isKeyPressed(SDLK_x)) {
 		position.x += speed;
 	}
 }
