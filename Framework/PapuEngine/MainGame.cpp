@@ -18,15 +18,20 @@ void MainGame::init() {
 	_window.create("Ella se fue :'v", _witdh, _height, 0);
 	initLevel();
 	initShaders();
-	_spriteBacth.init();
 }
 
 void MainGame::initLevel() {
 	currentLevel = 0;
 	levels.push_back(new Level("Levels/level.txt"));
 	player = new Player();
-	player->init(0.2f, levels[currentLevel]->getPlayerPosition(), &_inputManager);
+	player->init(1.0f,
+		levels[currentLevel]->getPlayerPosition(),
+		&_inputManager);
 	_spriteBacth.init();
+	for (int i = 0; i < levels[currentLevel]->getZombiesPosition().size(); i++) {
+		zombies.push_back(new Zombie());
+		zombies.back()->init(0.5f, levels[currentLevel]->getZombiesPosition()[i]);
+	}
 }
 
 void MainGame::initShaders() {
@@ -45,12 +50,6 @@ void MainGame::draw() {
 	_program.use();
 
 	glActiveTexture(GL_TEXTURE0);
-	//glBindTexture(GL_TEXTURE_2D, _texture.id);
-
-	/*GLuint timeLocation = 
-		_program.getUniformLocation("time");
-
-	glUniform1f(timeLocation,_time);*/
 
 	GLuint pLocation =
 		_program.getUniformLocation("P");
@@ -64,21 +63,12 @@ void MainGame::draw() {
 	_spriteBacth.begin();
 	levels[currentLevel]->draw();
 	player->draw(_spriteBacth);
+	for (size_t i = 0; i < zombies.size(); i++) {
+		zombies[i]->draw(_spriteBacth);
+	}
 	_spriteBacth.end();
 	_spriteBacth.renderBatch();
-	/*glm::vec4 position(0.0f, 0.0f, 50.0f, 50.0f);
-	glm::vec4 uv(0.0f, 0.0f, 1.0f, 1.0f);
-	static GLTexture texture = ResourceManager::getTexture("Textures/Paper_Mario_.png");
-	Color color;
-	color.r = 255;
-	color.g = 255;
-	color.b = 255;
-	color.a = 255;
-	_spriteBacth.draw(position, uv, texture.id,0.0f, color);
-	_spriteBacth.draw(position + glm::vec4(50,0,0,0), uv, texture.id, 0.0f, color);
-	_spriteBacth.end();
-	_spriteBacth.renderBatch();*/
-
+	
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	_program.unuse();
@@ -117,25 +107,19 @@ void MainGame::procesInput() {
 			_camera.setPosition(_camera.getPosition() + glm::vec2(0.0, CAMERA_SPEED));
 		}
 		if (_inputManager.isKeyPressed(SDLK_s)) {
-			_camera.setPosition(_camera.getPosition() + glm::vec2(0.0, -CAMERA_SPEED));
+			_camera.setPosition(_camera.getPosition() - glm::vec2(0.0, CAMERA_SPEED));
 		}
 		if (_inputManager.isKeyPressed(SDLK_a)) {
-			_camera.setPosition(_camera.getPosition() + glm::vec2(-CAMERA_SPEED, 0.0));
+			_camera.setPosition(_camera.getPosition() - glm::vec2(CAMERA_SPEED, 0.0));
 		}
 		if (_inputManager.isKeyPressed(SDLK_d)) {
 			_camera.setPosition(_camera.getPosition() + glm::vec2(CAMERA_SPEED, 0.0));
 		}
-		if (_inputManager.isKeyPressed(SDLK_q)) {
-			_camera.setScale(_camera.getScale() + SCALE_SPEED);
-		}
-		if (_inputManager.isKeyPressed(SDLK_e)) {
-			_camera.setScale(_camera.getScale() - SCALE_SPEED);
-		}
+		
 		if (_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
 			glm::vec2 mouseCoords =  _camera.convertScreenToWorl(_inputManager.getMouseCoords());
 			cout << mouseCoords.x << " " << mouseCoords.y << endl;
 		}*/
-
 		if (_inputManager.isKeyPressed(SDLK_q)) {
 			_camera.setScale(_camera.getScale() + SCALE_SPEED);
 		}
@@ -154,6 +138,9 @@ void MainGame::update() {
 		_time += 0.002f;
 		_camera.setPosition(player->getPosition());
 		player->update();
+		for (int i = 0; i < zombies.size(); i++) {
+			zombies[i]->update();
+		}
 	}
 }
 

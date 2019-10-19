@@ -7,10 +7,11 @@
 #include "Camera2D.h"
 #include <vector>
 #include "SpriteBacth.h"
-#include "InputManager.h"
 #include "Level.h"
+#include "InputManager.h"
 #include "Player.h"
 #include "Human.h"
+#include "Zombie.h"
 
 enum class GameState
 {
@@ -36,8 +37,9 @@ private:
 	int currentLevel;
 	void initLevel();
 	Player* player;
-	vector<Human*> humano;
-	
+	vector<Zombie*> zombies;
+	vector<Human*> humans;
+
 public:
 	MainGame();
 	~MainGame();
